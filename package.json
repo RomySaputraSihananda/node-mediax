@@ -5,7 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/."
+    "start": "npm run build && node ./lib/Mediax",
+    "build": "npx tsc",
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +15,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^21.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
   }
 }
