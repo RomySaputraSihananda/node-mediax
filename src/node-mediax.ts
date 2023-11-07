@@ -1,16 +1,17 @@
 import puppeteer, { Browser, Page } from "puppeteer";
 import * as cheerio from "cheerio";
+import fs from "fs";
 
 class Mediax {
   private browser: Browser | null = null;
 
-  async init() {
+  public async init() {
     this.browser = await puppeteer.launch({
       headless: "new",
     });
   }
 
-  async get(tweetUrl: string): Promise<string[]> {
+  public async get(tweetUrl: string): Promise<object> {
     if (!this.browser) {
       throw new Error("Browser is not initialized. Call initialize() first.");
     }
@@ -22,6 +23,9 @@ class Mediax {
     await page.waitForSelector("img.css-9pa8cd", { timeout: 5_000 });
 
     const pageContent: string = await page.content();
+
+    fs.writeFileSync("test.txt", pageContent);
+
     const $: any = cheerio.load(pageContent);
     const imgs: any = $(".css-9pa8cd").toArray();
     imgs.shift();
@@ -33,11 +37,20 @@ class Mediax {
       return link.join("=");
     });
 
-    await page.close();
-    return links;
+    const tweet: string = $(
+      ".css-901oao.r-1nao33i.r-37j5jr.r-1inkyih.r-16dba41.r-135wba7.r-bcqeeo.r-bnwqim.r-qvutc0"
+    ).text();
+
+    const divs: any[] = $(".css-1dbjc4n.r-xoduu5.r-1udh08x");
+
+    divs.forEach((element: any) => {
+      console.log(element.text());
+    });
+
+    return { tweet, links, divs };
   }
 
-  async close() {
+  public async close() {
     if (this.browser) {
       await this.browser.close();
     }
