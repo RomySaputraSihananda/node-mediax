@@ -26,17 +26,14 @@ class Mediax {
 
     this.$ = cheerio.load(pageContent);
 
-    const media: string[] = this.getMedia();
-
-    const tweet: string = this.getText(
-      ".css-901oao.r-1nao33i.r-37j5jr.r-1inkyih.r-16dba41.r-135wba7.r-bcqeeo.r-bnwqim.r-qvutc0"
-    );
-
+    const { media, avatar }: any = this.getMedia();
+    const tweet: string = this.getTweet();
     const info: object = this.getInfo();
-
     const createAt: string = this.getCreateAt();
+    const username: string = this.getUsername();
+    const verified: boolean = this.getVerified();
 
-    return { createAt, tweet, media, ...info };
+    return { username, avatar, verified, createAt, tweet, media, ...info };
   }
 
   private getInfo(): object {
@@ -52,22 +49,42 @@ class Mediax {
     };
   }
 
-  private getMedia(): string[] {
+  private getMedia(): object {
     const imgs: any[] = this.$(".css-9pa8cd").toArray();
-    imgs.shift();
+    const avatar: string = imgs.shift().attribs.src.replace("_normal", "");
 
-    const medias: string[] = imgs.map((e: any) => {
+    const media: string[] = imgs.map((e: any) => {
       let link: string[] = e.attribs.src.split("=");
       link.pop();
       link.push("4096x4096");
       return link.join("=");
     });
 
-    return medias;
+    return { media, avatar };
+  }
+
+  private getTweet(): string {
+    return this.getText(this.$(".css-1dbjc4n.r-1s2bzr4"));
   }
 
   private getCreateAt(): string {
     return this.$("time").toArray()[0].attribs.datetime;
+  }
+
+  private getUsername(): string {
+    return this.getText(
+      this.$(
+        ".css-901oao.css-1hf3ou5.r-18u37iz.r-37j5jr.r-1wvb978.r-a023e6.r-16dba41.r-rjixqe.r-bcqeeo.r-qvutc0"
+      )
+    );
+  }
+
+  private getVerified(): boolean {
+    const verif = this.$(
+      ".r-1cvl2hr.r-4qtqp9.r-yyyyoo.r-1xvli5t.r-9cviqr.r-f9ja8p.r-og9te1.r-bnwqim.r-1plcrui.r-lrvibr"
+    );
+
+    return verif.length < 1 ? false : true;
   }
 
   private getText(element: any): string {

@@ -17,8 +17,10 @@ const links = [
   // const data = await X.get(links[0]).save();
   // console.log(data);
 
-  const data2 = await X.get(links.pop());
-  console.log(data2);
+  for (const link of links) {
+    const data = await X.get(link);
+    console.log(data);
+  }
 
   await X.close();
 })();
