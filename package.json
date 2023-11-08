@@ -21,8 +21,7 @@
   },
   "scripts": {
     "start": "npm run build && node ./example/.",
-    "build": "npx tsc",
-    "test": "npx jest"
+    "build": "npx tsc"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",

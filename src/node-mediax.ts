@@ -1,6 +1,8 @@
 import puppeteer, { Browser, Page } from "puppeteer";
 import * as cheerio from "cheerio";
+import fs from "fs";
 
+interface data {}
 class Mediax {
   private browser: Browser | null = null;
   private $: any | null = null;
@@ -11,29 +13,51 @@ class Mediax {
     });
   }
 
-  public async get(tweetUrl: string): Promise<object> {
+  public async get(url: string): Promise<object> {
     if (!this.browser) {
       throw new Error("Browser is not initialized. Call init() first.");
     }
 
     const page: Page = await this.browser.newPage();
 
-    await page.goto(tweetUrl);
+    await page.goto(url);
 
     await page.waitForSelector("img.css-9pa8cd", { timeout: 5_000 });
 
-    const pageContent: string = await page.content();
+    this.$ = cheerio.load(await page.content());
 
-    this.$ = cheerio.load(pageContent);
-
-    const { media, avatar }: any = this.getMedia();
+    const { media, avatar } = this.getMedia() as {
+      media: object;
+      avatar: string;
+    };
     const tweet: string = this.getTweet();
     const info: object = this.getInfo();
     const createAt: string = this.getCreateAt();
     const username: string = this.getUsername();
     const verified: boolean = this.getVerified();
 
-    return { username, avatar, verified, createAt, tweet, media, ...info };
+    return {
+      username,
+      avatar,
+      verified,
+      createAt,
+      tweet,
+      media,
+      ...info,
+    };
+  }
+
+  public async save(url: string): Promise<void> {
+    const { media } = (await this.get(url)) as { media: object[] };
+    media.forEach(async ({ url }: any) => {
+      const req = await fetch(url);
+
+      const res = await req.arrayBuffer();
+
+      fs.writeFileSync("test.jpg", Buffer.from(res));
+    });
+
+    console.log("download complete");
   }
 
   private getInfo(): object {
@@ -89,6 +113,11 @@ class Mediax {
 
   private getText(element: any): string {
     return this.$(element).text();
+  }
+
+  private getNumber(element: any): number {
+    const number = this.getText(element).replace(/,/g, ".");
+    return number.match("k") ? parseFloat(number) * 1000 : parseFloat(number);
   }
 
   public async close() {
