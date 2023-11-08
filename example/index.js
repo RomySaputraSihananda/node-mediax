@@ -14,13 +14,13 @@ const links = [
    * https://twitter.com/i/videos/tweet/
    */
   await X.init();
-  // const data = await X.get(links[0]).save();
-  // console.log(data);
+  const data = await X.get(links[0]);
+  console.log(data);
 
-  for (const link of links) {
-    const data = await X.get(link);
-    console.log(data);
-  }
+  // for (const link of links) {
+  //   const data = await X.get(link);
+  //   console.log(data);
+  // }
 
   await X.close();
 })();

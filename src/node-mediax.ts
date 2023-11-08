@@ -53,11 +53,11 @@ class Mediax {
     const imgs: any[] = this.$(".css-9pa8cd").toArray();
     const avatar: string = imgs.shift().attribs.src.replace("_normal", "");
 
-    const media: string[] = imgs.map((e: any) => {
+    const media: object[] = imgs.map((e: any) => {
       let link: string[] = e.attribs.src.split("=");
       link.pop();
       link.push("4096x4096");
-      return link.join("=");
+      return { url: link.join("="), type: "image" };
     });
 
     return { media, avatar };

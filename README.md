@@ -1,10 +1,6 @@
 # node-mediax
 
-node-mediax adalah modul Python yang memungkinkan Anda untuk melakukan web scraping pada Twitter untuk mengambil URL gambar dengan URL yang sudah ditentukan.
-
-### Fitur Utama:
-
-1. Mengambil URL gambar dari URL yang ditentukan.
+node-mediax is a node module that allows you to scrape Twitter to retrieve image URLs and info with specified URLs.
 
 ### Getting Started
 

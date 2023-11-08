@@ -1,17 +1,29 @@
 {
-  "name": "mediax",
+  "name": "node-mediax",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
-  "main": "index.js",
+  "description": "node-mediax is a node module that allows you to scrape Twitter to retrieve image URLs and info with specified URLs.",
+  "main": "lib/node-mediax.js",
+  "author": "romy saputra <romysaputrasihanandaa@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "twitter",
+    "scrapping",
+    "media",
+    "url"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/romysaputrasihananda/node-mediax.git"
+  },
+  "bugs": {
+    "url": "https://github.com/romysaputrasihananda/node-mediax/issues"
+  },
   "scripts": {
     "start": "npm run build && node ./example/.",
     "build": "npx tsc",
     "test": "npx jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^21.4.0"
