@@ -9,7 +9,7 @@ npm i node-mediax
 # yarn add node-mediax
 ```
 
-### Example:
+### Usage:
 
 #### 1. Get info
 
@@ -58,6 +58,8 @@ await X.close();
 }
 ```
 
+<br/>
+
 #### 2. Save media
 
 ```javascript
@@ -98,12 +100,16 @@ await X.close();
 
 - **data/F7u3iB-boAAzYT9.jpg**
   ![](/data/F7u3iB-boAAzYT9.jpg)
+
 - **data/F7u3iB8awAA1QOJ.jpg**
   ![](/data/F7u3iB8awAA1QOJ.jpg)
+
 - **data/F7u3iB-aQAAgrHo.jpg**
   ![](/data/F7u3iB-aQAAgrHo.jpg)
 
-Dengan node-mediax, Anda dapat dengan mudah mengakses gambar-gambar dari Twitter dan mengintegrasikannya ke dalam proyek Anda. Pastikan untuk mematuhi aturan dan kebijakan penggunaan dari Twitter.
+<br/>
+
+With node-mediax, you can easily access images from Twitter and integrate them into your projects. Be sure to comply with Twitter's usage rules and policies.
 
 ## License
 
