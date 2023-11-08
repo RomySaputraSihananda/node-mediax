@@ -1,37 +1,43 @@
 import puppeteer, { Browser, Page } from "puppeteer";
 import * as cheerio from "cheerio";
 import fs from "fs";
+import path from "path";
+import { Data, Info, Media, Medias } from "./interfaces/interface";
 
-interface data {}
 class Mediax {
   private browser: Browser | null = null;
   private $: any | null = null;
 
-  public async init() {
+  public async init(): Promise<void> {
     this.browser = await puppeteer.launch({
       headless: "new",
     });
   }
 
-  public async get(url: string): Promise<object> {
+  public async get(url: string): Promise<Data> {
     if (!this.browser) {
       throw new Error("Browser is not initialized. Call init() first.");
     }
 
     const page: Page = await this.browser.newPage();
 
-    await page.goto(url);
+    await page.goto(this.filterUrl(url));
 
     await page.waitForSelector("img.css-9pa8cd", { timeout: 5_000 });
 
     this.$ = cheerio.load(await page.content());
 
     const { media, avatar } = this.getMedia() as {
-      media: object;
+      media: Media[];
       avatar: string;
     };
     const tweet: string = this.getTweet();
-    const info: object = this.getInfo();
+    const { views, repost, likes, bookmarks } = this.getInfo() as {
+      views: string;
+      repost: string;
+      likes: string;
+      bookmarks: string;
+    };
     const createAt: string = this.getCreateAt();
     const username: string = this.getUsername();
     const verified: boolean = this.getVerified();
@@ -43,27 +49,52 @@ class Mediax {
       createAt,
       tweet,
       media,
-      ...info,
+      views,
+      repost,
+      likes,
+      bookmarks,
     };
   }
 
-  public async save(url: string): Promise<void> {
-    const { media } = (await this.get(url)) as { media: object[] };
-    media.forEach(async ({ url }: any) => {
+  public async save(folder: string, url: string): Promise<void> {
+    const { media } = (await this.get(this.filterUrl(url))) as {
+      media: Media[];
+    };
+
+    if (!fs.existsSync(folder)) fs.mkdirSync(folder);
+
+    media.forEach(async ({ url }: { url: string }) => {
       const req = await fetch(url);
 
       const res = await req.arrayBuffer();
 
-      fs.writeFileSync("test.jpg", Buffer.from(res));
+      fs.writeFileSync(path.join(folder, this.getName(url)), Buffer.from(res));
+      console.log({
+        url,
+        message: `save on ${path.join(folder, this.getName(url))}`,
+      });
     });
 
     console.log("download complete");
   }
 
-  private getInfo(): object {
-    const [views, repost, likes, bookmarks]: any[] = this.$(
+  private getName(url: string): string {
+    return url.split("/")[4].split("?")[0] + ".jpg";
+  }
+
+  private filterUrl(url: string): string {
+    return url.replace(/\/photo\/\d+$/, "");
+  }
+
+  private getInfo(): Info {
+    const [views, repost, likes, bookmarks] = this.$(
       ".css-1dbjc4n.r-xoduu5.r-1udh08x"
-    ).toArray();
+    ).toArray() as [
+      views: string,
+      repost: string,
+      likes: string,
+      bookmarks: string
+    ];
 
     return {
       views: this.getText(views),
@@ -73,11 +104,11 @@ class Mediax {
     };
   }
 
-  private getMedia(): object {
+  private getMedia(): Medias {
     const imgs: any[] = this.$(".css-9pa8cd").toArray();
     const avatar: string = imgs.shift().attribs.src.replace("_normal", "");
 
-    const media: object[] = imgs.map((e: any) => {
+    const media: Media[] = imgs.map((e: any) => {
       let link: string[] = e.attribs.src.split("=");
       link.pop();
       link.push("4096x4096");
@@ -120,7 +151,7 @@ class Mediax {
     return number.match("k") ? parseFloat(number) * 1000 : parseFloat(number);
   }
 
-  public async close() {
+  public async close(): Promise<void> {
     if (this.browser) {
       await this.browser.close();
     }
