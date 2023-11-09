@@ -22,9 +22,9 @@ const links = [
    */
 
   await X.init();
-  // const data = await X.get(links.pop());
-  await X.save("data", links.pop());
-  // console.log(data);
+  const data = await X.get(links.pop());
+//  await X.save("data", links.pop());
+   console.log(data);
 
   // for (const link of links) {
   //   const data = await X.get(link);

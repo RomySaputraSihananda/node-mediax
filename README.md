@@ -51,10 +51,11 @@ await X.close();
       "type": "image"
     }
   ],
-  "views": "32.3K",
-  "repost": "371",
-  "likes": "5",
-  "bookmarks": "2,643"
+  "views": "32.4K",
+  "reposts": "371",
+  "quotes": "5",
+  "likes": "2,640",
+  "bookmarks": "72"
 }
 ```
 

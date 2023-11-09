@@ -1,14 +1,15 @@
-interface Data {
+interface Data extends Info {
   username: string;
   avatar: string;
   verified: boolean;
   createAt: string;
   tweet: string;
   media: Media[];
-  views: string;
-  repost: string;
-  likes: string;
-  bookmarks: string;
+  // views: string;
+  // reposts: string;
+  // quotes: string;
+  // likes: string;
+  // bookmarks: string;
 }
 
 interface Medias {
@@ -23,7 +24,8 @@ interface Media {
 
 interface Info {
   views: string;
-  repost: string;
+  reposts: string;
+  quotes: string;
   likes: string;
   bookmarks: string;
 }

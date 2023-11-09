@@ -32,9 +32,10 @@ class Mediax {
       avatar: string;
     };
     const tweet: string = this.getTweet();
-    const { views, repost, likes, bookmarks } = this.getInfo() as {
+    const { views, reposts, quotes, likes, bookmarks } = this.getInfo() as {
       views: string;
-      repost: string;
+      reposts: string;
+      quotes: string;
       likes: string;
       bookmarks: string;
     };
@@ -50,7 +51,8 @@ class Mediax {
       tweet,
       media,
       views,
-      repost,
+      reposts,
+      quotes,
       likes,
       bookmarks,
     };
@@ -87,19 +89,21 @@ class Mediax {
   }
 
   private getInfo(): Info {
-    const [views, repost, likes, bookmarks] = this.$(
+    const [views, reposts, quotes, likes, bookmarks] = this.$(
       ".css-1dbjc4n.r-xoduu5.r-1udh08x"
     ).toArray() as [
       views: string,
-      repost: string,
+      reposts: string,
+      quotes: string,
       likes: string,
       bookmarks: string
     ];
 
     return {
       views: this.getText(views),
-      repost: this.getText(repost),
       likes: this.getText(likes),
+      reposts: this.getText(reposts),
+      quotes: this.getText(quotes),
       bookmarks: this.getText(bookmarks),
     };
   }
