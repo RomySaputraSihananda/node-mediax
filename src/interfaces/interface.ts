@@ -5,11 +5,6 @@ interface Data extends Info {
   createAt: string;
   tweet: string;
   media: Media[];
-  // views: string;
-  // reposts: string;
-  // quotes: string;
-  // likes: string;
-  // bookmarks: string;
 }
 
 interface Medias {

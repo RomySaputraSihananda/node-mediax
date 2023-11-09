@@ -18,14 +18,10 @@ import Mediax from "node-mediax";
 
 const X = new Mediax();
 
-await X.init();
-
 const data = await X.get(
   "https://twitter.com/amortentia0213/status/1710162301326938255"
 );
 console.log(data);
-
-await X.close();
 ```
 
 ##### Output
@@ -68,14 +64,10 @@ import Mediax from "node-mediax";
 
 const X = new Mediax();
 
-await X.init();
-
 await X.save(
   "data",
   "https://twitter.com/amortentia0213/status/1710162301326938255"
 );
-
-await X.close();
 ```
 
 ##### Output

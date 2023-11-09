@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { Data, Info, Media, Medias } from "./interfaces/interface";
 
-class Mediax {
+class node_mediax {
   private browser: Browser | null = null;
   private $: any | null = null;
 
@@ -21,7 +21,7 @@ class Mediax {
 
     const page: Page = await this.browser.newPage();
 
-    await page.goto(this.filterUrl(url));
+    await page.goto(url.replace(/\/photo.*/, ""));
 
     await page.waitForSelector("img.css-9pa8cd", { timeout: 5_000 });
 
@@ -59,7 +59,7 @@ class Mediax {
   }
 
   public async save(folder: string, url: string): Promise<void> {
-    const { media } = (await this.get(this.filterUrl(url))) as {
+    const { media } = (await this.get(url)) as {
       media: Media[];
     };
 
@@ -82,10 +82,6 @@ class Mediax {
 
   private getName(url: string): string {
     return url.split("/")[4].split("?")[0] + ".jpg";
-  }
-
-  private filterUrl(url: string): string {
-    return url.replace(/\/photo\/\d+$/, "");
   }
 
   private getInfo(): Info {
@@ -159,6 +155,25 @@ class Mediax {
     if (this.browser) {
       await this.browser.close();
     }
+  }
+}
+class Mediax {
+  public async get(url: string): Promise<Data> {
+    const x: node_mediax = new node_mediax();
+
+    await x.init();
+    const data: Data = await x.get(url);
+    await x.close();
+
+    return data;
+  }
+
+  public async save(folder: string, url: string): Promise<void> {
+    const x: node_mediax = new node_mediax();
+
+    await x.init();
+    await x.save(folder, url);
+    await x.close();
   }
 }
 

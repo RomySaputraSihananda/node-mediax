@@ -21,15 +21,15 @@ const links = [
    * https://twitter.com/i/videos/tweet/
    */
 
-  await X.init();
+  // await X.init();
   const data = await X.get(links.pop());
-//  await X.save("data", links.pop());
-   console.log(data);
+  //  await X.save("data", links.pop());
+  console.log(data);
 
   // for (const link of links) {
   //   const data = await X.get(link);
   //   console.log(data);
   // }
 
-  await X.close();
+  // await X.close();
 })();
