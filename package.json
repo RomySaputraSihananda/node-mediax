@@ -1,6 +1,6 @@
 {
   "name": "node-mediax",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "type": "module",
   "description": "node-mediax is a node module that allows you to scrape Twitter to retrieve image URLs and info with specified URLs.",
   "main": "lib/node-media.js",
