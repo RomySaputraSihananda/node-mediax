@@ -16,9 +16,7 @@ npm i node-mediax
 ```javascript
 import Mediax from "node-mediax";
 
-const X = new Mediax();
-
-const data = await X.get(
+const data = await Mediax.get(
   "https://twitter.com/amortentia0213/status/1710162301326938255"
 );
 console.log(data);
@@ -62,9 +60,7 @@ console.log(data);
 ```javascript
 import Mediax from "node-mediax";
 
-const X = new Mediax();
-
-await X.save(
+await Mediax.save(
   "data",
   "https://twitter.com/amortentia0213/status/1710162301326938255"
 );

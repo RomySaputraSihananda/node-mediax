@@ -16,13 +16,13 @@ const links = [
 ];
 
 (async () => {
-  const X = new Mediax();
+  // const X = new Mediax();
   /*
    * https://twitter.com/i/videos/tweet/
    */
 
   // await X.init();
-  const data = await X.get(links.pop());
+  const data = await Mediax.get(links.pop());
   //  await X.save("data", links.pop());
   console.log(data);
 

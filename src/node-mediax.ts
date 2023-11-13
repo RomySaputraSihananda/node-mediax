@@ -14,6 +14,11 @@ class node_mediax {
     });
   }
 
+  /**
+   * This is a method for retrieving data from a Twitter URL.
+   * @param {string} url - URL from Twitter that will be scrapped
+   * @returns {Promise<Data>} Details of the URL that has been scrapped
+   */
   public async get(url: string): Promise<Data> {
     if (!this.browser) {
       throw new Error("Browser is not initialized. Call init() first.");
@@ -58,6 +63,11 @@ class node_mediax {
     };
   }
 
+  /**
+   * This is a method to grab an image from a Twitter URL and save it
+   * @param {string} folder - The name of the folder that will be used to store photos
+   * @param {string} url - URL from Twitter that will be scrapped
+   */
   public async save(folder: string, url: string): Promise<void> {
     const { media } = (await this.get(url)) as {
       media: Media[];
@@ -158,6 +168,11 @@ class node_mediax {
   }
 }
 class Mediax {
+  /**
+   * This is a method for retrieving data from a Twitter URL.
+   * @param {string} url - URL from Twitter that will be scrapped
+   * @returns {Promise<Data>} Details of the URL that has been scrapped
+   */
   public async get(url: string): Promise<Data> {
     const x: node_mediax = new node_mediax();
 
@@ -168,6 +183,11 @@ class Mediax {
     return data;
   }
 
+  /**
+   * This is a method to grab an image from a Twitter URL and save it
+   * @param {string} folder - The name of the folder that will be used to store photos
+   * @param {string} url - URL from Twitter that will be scrapped
+   */
   public async save(folder: string, url: string): Promise<void> {
     const x: node_mediax = new node_mediax();
 
@@ -177,4 +197,4 @@ class Mediax {
   }
 }
 
-export default Mediax;
+export default new Mediax();
